@@ -1,0 +1,52 @@
+<div class="card">
+  <div class="card-header">
+    <h5>Users List</h5>
+  </div>
+  <div class="card-block">
+    <table class="table table-bordered" *ngIf="UsersList">
+      <tr>
+        <th>User Name</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>City</th>
+        <th>Ration No</th>
+        <th>Adhar No</th>
+      </tr>
+      <tbody>
+        <ng-container *ngFor="let user of UsersList;let k = index">
+          <tr>
+            <td>{{user.username}}</td>
+            <td>{{user.firstname}} {{user.lastname}}</td>
+            <td>{{user.mobile}}</td>
+            <td>{{user.city}}</td>
+            <td>{{user.rationno}}</td>
+            <td>{{user.adharno}}</td>
+          </tr>
+          <tr>
+            <td colspan="6">
+              <h6>Consumers</h6>
+              <table class="table">
+                <tr>
+                  <th>User Name</th>
+                  <th>Name</th>
+                  <th>Mobile</th>
+                  <th>City</th>
+                  <th>Ration No</th>
+                  <th>Adhar No</th>
+                </tr>
+                <tr *ngFor="let usr of user.users">
+                  <td>{{usr.username}}</td>
+                  <td>{{usr.firstname}} {{usr.lastname}}</td>
+                  <td>{{usr.mobile}}</td>
+                  <td>{{usr.city}}</td>
+                  <td>{{usr.rationno}}</td>
+                  <td>{{usr.adharno}}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
