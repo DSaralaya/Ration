@@ -11,9 +11,10 @@ export class HttpService {
 			return Observable.fromPromise(this.LoginCall(params));
 		} else if (method == 'register') {
 			return Observable.fromPromise(this.RegisterCall(params));
-        }
-        else if (method == 'getdealers') {
+		} else if (method == 'getdealers') {
 			return Observable.fromPromise(this.GetDealers());
+		} else if (method == 'profileUpdate') {
+			return Observable.fromPromise(this.ProfileUpdate(params));
 		}
 		return null;
 	}
@@ -43,6 +44,7 @@ export class HttpService {
 		user.set('rationno', form.rationno);
 		user.set('adharno', form.adharno);
 		user.set('city', form.city);
+		user.set('role', form.role);
 		//need to add otp
 		return user.signUp(null, {
 			success: function(user) {
@@ -53,11 +55,33 @@ export class HttpService {
 			}
 		});
 	}
+	private ProfileUpdate(form) {
+		var query = new this.Parse.Query(this.Parse.User);
+		query.equalTo('objectId', form.objectId);
+		return query.first({
+			success: function(user) {
+				debugger;
+				user.set('firstname', form.firstname);
+				user.set('lastname', form.lastname);
+				user.set('mobile', form.mobile);
+				user.set('rationno', form.rationno);
+				user.set('adharno', form.adharno);
+				user.set('city', form.city);
+				user.save();
+				localStorage.setItem('currentUser', JSON.stringify(user));
+				return true;
+			},
+			error: function(user, error) {
+				console.log(error);
+				return false;
+			}
+		});
+	}
 
 	private GetDealers() {
 		var Users = this.Parse.Object.extend('User');
-        var query = new this.Parse.Query(Users);
-        query.notEqualTo("role", "central");
+		var query = new this.Parse.Query(Users);
+		query.notEqualTo('role', 'central');
 		return query.find({
 			success: function(results) {
 				return results;

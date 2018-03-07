@@ -13,9 +13,8 @@ import { HttpService } from '../service/httpService';
 	styleUrls: [ './login.component.css' ]
 })
 export class LoginComponent implements OnInit {
-	
-  loginForm: FormGroup;
- Invalid=false;
+	loginForm: FormGroup;
+	Invalid = false;
 	constructor(fb: FormBuilder, private router: Router, private server: HttpService) {
 		this.loginForm = fb.group({
 			username: '',
@@ -29,23 +28,22 @@ export class LoginComponent implements OnInit {
 
 	submitForm(form: any): void {
 		if (this.loginForm.valid) {
-			this.server.call('login', form).subscribe((result) => {
-        debugger;
-				if (result) {
-					this.redirect();
-        }
-       
-      },
-      error => {
-        this.Invalid=true;
-      });
+			this.server.call('login', form).subscribe(
+				(result) => {
+					if (result) {
+						this.redirect();
+					}
+				},
+				(error) => {
+					this.Invalid = true;
+				}
+			);
 		} else {
 			this.validateAllFormFields(this.loginForm);
 		}
 	}
 
 	redirect() {
-		debugger;
 		if (localStorage.getItem('currentUser')) {
 			var user = JSON.parse(localStorage.getItem('currentUser'));
 			if (user.role === 'central') {

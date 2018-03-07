@@ -7,14 +7,19 @@
     <a class="navbar-brand" href="#"></a>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="role=='dealer'">
           <a class="nav-link" [routerLink]="['/get-started']">
             <span>View Consumer </span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/cross-sell']">
+        <li class="nav-item" *ngIf="role=='central'">
+          <a class="nav-link" [routerLink]="['/central']">
             <span>View Dealer </span>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="role=='central'">
+          <a class="nav-link" [routerLink]="['/addDealer']">
+            <span>Add Dealer </span>
           </a>
         </li>
         <li class="nav-item dropdown  ml-auto">
@@ -22,7 +27,7 @@
              {{name}}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Profile</a>
+              <a class="dropdown-item" [routerLink]="['/profile']">Profile</a>
               <a class="dropdown-item" (click)="Logout()">Logout</a>
             
             </div>

@@ -50,7 +50,7 @@ export class CentalHomeComponent implements OnInit {
             users:consumers ||[]
 					});
         });
-        console.log(this.UsersList);
+      
 
 			},
 			(error) => {}

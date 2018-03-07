@@ -14,14 +14,17 @@ import { AuthGuard } from './service/AuthGurd';
 import { HttpService } from './service/httpService';
 import { RegisterComponent } from './register/register.component';
 import { AddDealerComponent } from './central/add-dealer/add-dealer.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent , },
   { path: 'central', component: CentalHomeComponent,canActivate:[AuthGuard] },
+  { path: 'addDealer', component: AddDealerComponent,canActivate:[AuthGuard] },
   { path: 'dealer', component: DealerHomeComponent ,canActivate:[AuthGuard] },
   { path: 'consumer', component: ConsumerHomeComponent ,canActivate:[AuthGuard] },
   { path: 'register', component: RegisterComponent  },
+  { path: 'profile', component: ProfileComponent ,canActivate:[AuthGuard] },
 ];
 
 @NgModule({
@@ -33,7 +36,8 @@ const appRoutes: Routes = [
     ConsumerHomeComponent,
     FieldErrorDisplayComponent,
     RegisterComponent,
-    AddDealerComponent
+    AddDealerComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule, ReactiveFormsModule,FormsModule,

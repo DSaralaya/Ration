@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit {
 			lastname: '',
 			mobile: '',
 			rationno: '',
-			adharno: '',city:''
+			adharno: '',city:'',role:''
 		});
 	}
 
@@ -25,6 +25,7 @@ export class RegisterComponent implements OnInit {
 
 	submitForm(form: any) {
 		if (this.form.valid) {
+			this.form.role='consumer';
 			this.server.call('register', form).subscribe(
 				(result) => {},
 				(error) => {

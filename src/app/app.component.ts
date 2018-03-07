@@ -12,6 +12,7 @@ declare const Parse: any;
 export class AppComponent implements OnInit {
   Parse:any;
   isLogged=false;
+  role:any;
     name:any;
     constructor(private router:Router){}
     ngOnInit()
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
       if (localStorage.getItem('currentUser')) {
         var usr=JSON.parse(localStorage.getItem('currentUser'));
         this.name=usr.username;
+        this.role=usr.role;
         this.isLogged= true;
     }
 
