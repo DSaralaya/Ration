@@ -1,0 +1,82 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h5>Products</h5>
+    </div>
+    <div class="card-block">
+      <form [formGroup]="addform">
+        <div class="row">
+
+          <div class="col-2">
+            <label> Month</label>
+            <select name="month" class="form-control" formControlName="month" required>
+              <option></option>
+              <option >JAN</option>
+              <option >FEB</option>
+              <option >MAR</option>
+              <option >APR</option>
+              <option >MAY</option>
+              <option >JUN</option>
+              <option >JUL</option>
+              <option >AUG</option>
+              <option >SEP</option>
+              <option >OCT</option>
+              <option >NOV</option>
+              <option >DEC</option>
+            </select>
+
+          </div>
+          <div class="col-2">
+            <label>Kerosene</label>
+            <input type="number" name="Kerosene" class="form-control" formControlName="kerosene" required>
+          </div>
+          <div class="col-2">
+            <label>Rice</label>
+            <input type="number" name="Rice" class="form-control" formControlName="rice" required>
+          </div>
+          <div class="col-2">
+            <label>Sugar</label>
+            <input type="number" name="Sugar"  class="form-control" formControlName="sugar" required>
+          </div>
+          <div class="col-1">
+            <input type="button" value="Add" class="btn btn-primary inline" (click)="AddProduct(addform.value)">
+          </div>
+        </div>
+      </form>
+      <div *ngIf="ProductList.length>0" class="productList">
+        <h5>List</h5>
+        <table class="table">
+          <thead>
+            <th>Month</th>
+            <th>Kerosene</th>
+            <th>Sugar</th>
+            <th>Rice</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let item of ProductList;let k = index">
+              <tr *ngIf="!item.isEdit">
+                <td>{{item.month}}</td>
+                <td>{{item.kerosene}}</td>
+                <td>{{item.sugar}}</td>
+                <td>{{item.rice}}</td>
+                <td><a (click)="item.isEdit=true" class="btn btn-primary">Edit</a>
+                     <a (click)="Delete(item,k)" class="btn btn-danger">Delete</a>
+                </td>
+              </tr>
+              <tr *ngIf="item.isEdit">
+                  <td>{{item.month}}</td>
+                  <td><input type="number" name="kerosene" class="form-control" [ngModel]="item.kerosene" required></td>
+                  <td><input type="number" name="sugar" class="form-control" [ngModel]="item.sugar" required></td>
+                  <td><input type="number" name="rice" class="form-control" [ngModel]="item.rice" required></td>
+                  <td> <a (click)="Update(item,k)" class="btn btn-primary">update</a>
+                       <a (click)="item.isEdit=false" class="btn btn-danger">cancel</a>
+                  </td>
+                </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

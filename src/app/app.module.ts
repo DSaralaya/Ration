@@ -15,6 +15,7 @@ import { HttpService } from './service/httpService';
 import { RegisterComponent } from './register/register.component';
 import { AddDealerComponent } from './central/add-dealer/add-dealer.component';
 import { ProfileComponent } from './profile/profile.component';
+import { AddproductsComponent } from './central/addproducts/addproducts.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -25,6 +26,7 @@ const appRoutes: Routes = [
   { path: 'consumer', component: ConsumerHomeComponent ,canActivate:[AuthGuard] },
   { path: 'register', component: RegisterComponent  },
   { path: 'profile', component: ProfileComponent ,canActivate:[AuthGuard] },
+  { path: 'addProduct', component: AddproductsComponent ,canActivate:[AuthGuard] },
 ];
 
 @NgModule({
@@ -37,7 +39,8 @@ const appRoutes: Routes = [
     FieldErrorDisplayComponent,
     RegisterComponent,
     AddDealerComponent,
-    ProfileComponent
+    ProfileComponent,
+    AddproductsComponent
   ],
   imports: [
     BrowserModule, ReactiveFormsModule,FormsModule,
