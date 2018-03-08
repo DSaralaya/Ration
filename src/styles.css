@@ -1,29 +1,27 @@
-.login-panel{
-    margin-top: 15%;
-    margin-left: 25%;
-   
+.login-panel {
+	margin-top: 15%;
+	margin-left: 25%;
 }
 .login {
-    margin-top:27px;
-    border: 1px solid #ccc;
-    padding: 20px;
-    
+	margin-top: 27px;
+	border: 1px solid #ccc;
+	padding: 20px;
 }
-.errorMessage{
-    color: red;
-    float: left;
-    margin-bottom: 8px;
-    font-size: 13px;
-    padding-left: 10px;
+.errorMessage {
+	color: red;
+	float: left;
+	margin-bottom: 8px;
+	font-size: 13px;
+	padding-left: 10px;
 }
 
-.dropdown-menu-right { 
-    right: 0; 
-    left: auto; 
+.dropdown-menu-right {
+	right: 0;
+	left: auto;
 }
-.productList{
-    margin-top: 50px;
+.productList {
+	margin-top: 50px;
 }
-.inline{
-    margin-top: 35px;
+.inline {
+	margin-top: 35px;
 }

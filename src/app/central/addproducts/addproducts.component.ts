@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../service/httpService';
 
 @Component({
@@ -8,55 +8,59 @@ import { HttpService } from '../../service/httpService';
 	styleUrls: [ './addproducts.component.css' ]
 })
 export class AddproductsComponent implements OnInit {
-	addform: any;
 	Invalid = false;
 	ProductList = [];
-	constructor(fb: FormBuilder, private server: HttpService) {
-		this.addform = fb.group({
-			month: '',
-			kerosene: '',
-			rice: '',
-			sugar: '',
-			isedit: false
-		});
-	}
+	private editedRowIndex: number;
+	public formGroup: FormGroup;
+	listItems = [ 'JAN', 'FEB', 'MAR' ];
+	constructor(private server: HttpService) {}
 
 	ngOnInit() {}
 
-	AddProduct(form) {
-		if (this.addform.valid) {
-			var lst = this.ProductList.filter(function(t) {
-				return t.month == form.month;
+	public editHandler({ sender, rowIndex, dataItem }) {
+		this.closeEditor(sender);
+
+		this.editedRowIndex = rowIndex;
+
+		sender.editRow(rowIndex, this.formGroup);
+	}
+	private closeEditor(grid, rowIndex = this.editedRowIndex) {
+		grid.closeRow(rowIndex);
+		this.editedRowIndex = undefined;
+		this.formGroup = undefined;
+	}
+	public cancelHandler({ sender, rowIndex }) {
+		this.closeEditor(sender, rowIndex);
+	}
+	public saveHandler({ sender, rowIndex, dataItem, isNew }) {
+		if (isNew) {
+			var fil = this.ProductList.filter(function(t) {
+				return t.month === dataItem.month;
 			});
-			if (lst.length == 0) {
-				this.ProductList.push({ year: new Date().getFullYear(), month: form.month, kerosene: form.kerosene, rice: form.rice, sugar: form.sugar });
+			if (fil.length === 0) {
+				this.ProductList.push(dataItem);
+				sender.closeRow(rowIndex);
 			} else {
-				alert('Product already exist');
+				alert('Data already exist');
 			}
 		} else {
-			this.validateAllFormFields(this.addform);
+			this.ProductList[rowIndex] = dataItem;
+			sender.closeRow(rowIndex);
 		}
 	}
-
-	Delete(index) {
-		this.ProductList.splice(index, 1);
-	}
-	Update(item, index) {
-    item.isEdit = false;
-    debugger;
-    this.ProductList[index]=item;
-    console.log(this.ProductList);
+	public removeHandler({ dataItem, rowIndex }) {
+		this.ProductList.splice(rowIndex, 1);
 	}
 
-	validateAllFormFields(formGroup: FormGroup) {
-		Object.keys(formGroup.controls).forEach((field) => {
-			console.log(field);
-			const control = formGroup.get(field);
-			if (control instanceof FormControl) {
-				control.markAsTouched({ onlySelf: true });
-			} else if (control instanceof FormGroup) {
-				this.validateAllFormFields(control);
-			}
+	public addHandler({ sender }, formInstance) {
+		formInstance.reset();
+		this.closeEditor(sender);
+
+		sender.addRow({
+			month: '',
+			kerosene: '',
+			rice: '',
+			sugar: ''
 		});
 	}
 }
