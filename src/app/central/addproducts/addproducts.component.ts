@@ -22,19 +22,18 @@ export class AddproductsComponent implements OnInit {
 	getProducts() {
 		this.server.call('getProducts', []).subscribe(
 			(result: any[]) => {
-        debugger;
-        result.forEach((element) => {
+				debugger;
+				result.forEach((element) => {
 					var elem = element.attributes;
 					this.ProductList.push({
 						month: elem.month,
 						year: elem.year,
 						rice: elem.rice,
-            sugar: elem.sugar,
-            kerosene: elem.kerosene,
+						sugar: elem.sugar,
+						kerosene: elem.kerosene
 					});
-        });
-        console.log(this.ProductList);
-      
+				});
+				console.log(this.ProductList);
 			},
 			(error) => {}
 		);
@@ -63,25 +62,22 @@ export class AddproductsComponent implements OnInit {
 			if (fil.length === 0) {
 				this.server.call('addProduct', dataItem).subscribe(
 					(result: any[]) => {
-            this.ProductList.push(dataItem);
-            sender.closeRow(rowIndex);
+						this.ProductList.push(dataItem);
+						sender.closeRow(rowIndex);
 					},
 					(error) => {}
 				);
-
-			
 			} else {
 				alert('Data already exist');
 			}
 		} else {
-      this.server.call('updateProduct', dataItem).subscribe(
-        (result: any[]) => {
-          this.ProductList[rowIndex] = dataItem;
-          sender.closeRow(rowIndex);
-        },
-        (error) => {}
-      );
-		
+			this.server.call('updateProduct', dataItem).subscribe(
+				(result: any[]) => {
+					this.ProductList[rowIndex] = dataItem;
+					sender.closeRow(rowIndex);
+				},
+				(error) => {}
+			);
 		}
 	}
 	public removeHandler({ dataItem, rowIndex }) {

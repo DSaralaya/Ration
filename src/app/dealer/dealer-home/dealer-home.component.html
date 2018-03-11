@@ -1,3 +1,26 @@
-<p>
-  dealer-home works!
-</p>
+<div class="card">
+  <div class="card-header">
+    <h5>Users List</h5>
+  </div>
+  <div class="card-block">
+    <kendo-grid [data]="gridView" [pageSize]="pageSize" [skip]="skip" [sortable]="true"
+    [pageable]="true" (pageChange)="pageChange($event)">
+      <kendo-grid-column field="username" title="User Name">
+      </kendo-grid-column>
+      <kendo-grid-column field="firstname" title="Name">
+      </kendo-grid-column>
+      <kendo-grid-column field="mobile" title="Mobile">
+      </kendo-grid-column>
+      <kendo-grid-column field="city" title="City">
+      </kendo-grid-column>
+      <kendo-grid-column field="rationno" title="Ration No">
+      </kendo-grid-column>
+      <kendo-grid-column field="adharno" title="Adhar No">
+      </kendo-grid-column>
+
+    </kendo-grid>
+
+
+
+  </div>
+</div>
