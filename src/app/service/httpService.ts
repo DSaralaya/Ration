@@ -16,6 +16,15 @@ export class HttpService {
 		} else if (method == 'profileUpdate') {
 			return Observable.fromPromise(this.ProfileUpdate(params));
 		}
+		else if (method == 'addProduct') {
+			return Observable.fromPromise(this.addProduct(params));
+		}
+		else if (method == 'updateProduct') {
+			return Observable.fromPromise(this.updateProduct(params));
+		}
+		else if (method == 'getProducts') {
+			return Observable.fromPromise(this.getProducts());
+		}
 		return null;
 	}
 
@@ -87,6 +96,56 @@ export class HttpService {
 				return results;
 			},
 			error: function(error) {}
+		});
+	}
+
+
+	private getProducts(){
+		var products = this.Parse.Object.extend('Products');
+		var query = new this.Parse.Query(products);
+		query.equalTo('year', (new Date()).getFullYear().toString());
+		return query.find({
+			success: function(results) {
+				return results;
+			},
+			error: function(error) {}
+		});
+	}
+
+	private addProduct(form){
+		var products = this.Parse.Object.extend('Products');
+		var product=new products();
+		product.set('year', (new Date()).getFullYear().toString());
+		product.set('month', form.month);
+		product.set('rice', form.rice);
+		product.set('sugar', form.sugar);
+		product.set('kerosene', form.kerosene);
+		return product.save(null, {
+			success: function(user) {
+				return true;
+			},
+			error: function(user, error) {
+				return false;
+			}
+		});
+	}
+
+	private updateProduct(form){
+		var products = this.Parse.Object.extend('Products');
+		var query = new this.Parse.Query(products);
+		query.equalTo('month', form.month);
+		query.equalTo('year', (new Date()).getFullYear().toString());
+		return query.first({
+			success: function(product) {
+				product.set('rice',form.rice);
+				product.set('kerosene',form.kerosene);
+				product.set('sugar',form.sugar);
+				product.save();
+			},
+			error: function(user, error) {
+				console.log(error);
+				return false;
+			}
 		});
 	}
 }

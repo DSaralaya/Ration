@@ -15,7 +15,30 @@ export class AddproductsComponent implements OnInit {
 	listItems = [ 'JAN', 'FEB', 'MAR' ];
 	constructor(private server: HttpService) {}
 
-	ngOnInit() {}
+	ngOnInit() {
+		this.getProducts();
+	}
+
+	getProducts() {
+		this.server.call('getProducts', []).subscribe(
+			(result: any[]) => {
+        debugger;
+        result.forEach((element) => {
+					var elem = element.attributes;
+					this.ProductList.push({
+						month: elem.month,
+						year: elem.year,
+						rice: elem.rice,
+            sugar: elem.sugar,
+            kerosene: elem.kerosene,
+					});
+        });
+        console.log(this.ProductList);
+      
+			},
+			(error) => {}
+		);
+	}
 
 	public editHandler({ sender, rowIndex, dataItem }) {
 		this.closeEditor(sender);
@@ -38,14 +61,27 @@ export class AddproductsComponent implements OnInit {
 				return t.month === dataItem.month;
 			});
 			if (fil.length === 0) {
-				this.ProductList.push(dataItem);
-				sender.closeRow(rowIndex);
+				this.server.call('addProduct', dataItem).subscribe(
+					(result: any[]) => {
+            this.ProductList.push(dataItem);
+            sender.closeRow(rowIndex);
+					},
+					(error) => {}
+				);
+
+			
 			} else {
 				alert('Data already exist');
 			}
 		} else {
-			this.ProductList[rowIndex] = dataItem;
-			sender.closeRow(rowIndex);
+      this.server.call('updateProduct', dataItem).subscribe(
+        (result: any[]) => {
+          this.ProductList[rowIndex] = dataItem;
+          sender.closeRow(rowIndex);
+        },
+        (error) => {}
+      );
+		
 		}
 	}
 	public removeHandler({ dataItem, rowIndex }) {
