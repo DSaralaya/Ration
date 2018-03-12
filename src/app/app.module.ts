@@ -34,7 +34,8 @@ const appRoutes: Routes = [
 	{ path: 'register', component: RegisterComponent },
 	{ path: 'profile', component: ProfileComponent, canActivate: [ AuthGuard ] },
 	{ path: 'addProduct', component: AddproductsComponent, canActivate: [ AuthGuard ] },
-	{ path: 'createrequest', component: CreateRequestComponent, canActivate: [ AuthGuard ] }
+	{ path: 'createrequest', component: CreateRequestComponent, canActivate: [ AuthGuard ] },
+	{ path: 'viewrequest', component: ViewrequestComponent, canActivate: [ AuthGuard ] }
 ];
 
 @NgModule({
