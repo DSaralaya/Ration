@@ -12,7 +12,8 @@ export class AddproductsComponent implements OnInit {
 	ProductList = [];
 	private editedRowIndex: number;
 	public formGroup: FormGroup;
-	listItems = [ 'JAN', 'FEB', 'MAR' ];
+	listMonths = [ 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC' ];
+	city=['Mangalore','Udupi','Mulki','Sullya','Puttur','ULLAL']
 	constructor(private server: HttpService) {}
 
 	ngOnInit() {
@@ -30,7 +31,8 @@ export class AddproductsComponent implements OnInit {
 						year: elem.year,
 						rice: elem.rice,
 						sugar: elem.sugar,
-						kerosene: elem.kerosene
+						kerosene: elem.kerosene,
+						city:elem.city
 					});
 				});
 				console.log(this.ProductList);
@@ -57,7 +59,7 @@ export class AddproductsComponent implements OnInit {
 	public saveHandler({ sender, rowIndex, dataItem, isNew }) {
 		if (isNew) {
 			var fil = this.ProductList.filter(function(t) {
-				return t.month === dataItem.month;
+				return t.city === dataItem.city;
 			});
 			if (fil.length === 0) {
 				this.server.call('addProduct', dataItem).subscribe(

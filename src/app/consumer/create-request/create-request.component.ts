@@ -13,6 +13,7 @@ export class CreateRequestComponent implements OnInit {
 	private editedRowIndex: number;
 	public formGroup: FormGroup;
 	listMonths = [ 'JAN', 'FEB', 'MAR' ];
+	itemList:any;
 	public autoCorrect: boolean = true;
 	minDate: Date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
 	maxDate: Date = new Date(new Date().getFullYear(), new Date().getMonth(), 25);
@@ -21,26 +22,37 @@ export class CreateRequestComponent implements OnInit {
 	constructor(private server: HttpService) {}
 
 	ngOnInit() {
-		this.getProducts();
+		this.getRequests();
 	}
 
-	getProducts() {
+	getProducts()
+	{
+		this.server.call('getAssginedProduct', []).subscribe((products: any[]) => {
+			products.forEach((element) => {
+				var elem = element.attributes;
+				this.itemList={ sugar:elem.sugar, kerosene:elem.kerosene, rice:elem.rice };
+			});
+		});
+	}
+
+	getRequests() {
 		this.ProductList = [];
 		this.server.call('getConsumerRequests', []).subscribe(
 			(result: any[]) => {
-				debugger;
-				result.forEach((element) => {
-					var elem = element.attributes;
-					this.ProductList.push({
-						appointment: elem.appointment,
-						time: elem.time,
-						rice: elem.rice,
-						sugar: elem.sugar,
-						kerosene: elem.kerosene,
-						objectId: element.id
+			
+					result.forEach((element) => {
+						var elem = element.attributes;
+						this.ProductList.push({
+							appointment: elem.appointment,
+							time: elem.time,
+							rice: elem.rice,
+							sugar: elem.sugar,
+							kerosene: elem.kerosene,
+							objectId: element.id,
+							status: elem.status
+						});
 					});
-				});
-				console.log(this.ProductList);
+				
 			},
 			(error) => {}
 		);
@@ -93,10 +105,13 @@ export class CreateRequestComponent implements OnInit {
 		if (isNew) {
 			if (riceQuantity > 3 || sugarQuantity > 3 || kerosceneQuantity > 3) {
 				alert('Qunatity exceeded (max 3 kg)');
-			} else {
+			} else if(riceQuantity>this.itemList.rice || sugarQuantity>this.itemList.sugar || kerosceneQuantity >this.itemList.kerosene ){
+				alert('Stock is empty');
+			}
+			else {
 				this.server.call('createConsumerRequests', dataItem).subscribe(
 					(result: any[]) => {
-						this.getProducts();
+						this.getRequests();
 						sender.closeRow(rowIndex);
 					},
 					(error) => {}
@@ -105,6 +120,9 @@ export class CreateRequestComponent implements OnInit {
 		} else {
 			if (riceQuantity > 3 || sugarQuantity > 3 || kerosceneQuantity > 3) {
 				alert('Qunatity exceeded (max 3 kg)');
+			}
+			else if(riceQuantity>this.itemList.rice || sugarQuantity>this.itemList.sugar || kerosceneQuantity >this.itemList.kerosene ){
+				alert('Stock is empty');
 			} else {
 				this.server.call('updateConsumerRequests', dataItem).subscribe(
 					(result: any[]) => {

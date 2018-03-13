@@ -1,0 +1,74 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h5>Report</h5>
+    </div>
+    <div class="card-block">
+      <div *ngIf="role!='central'">
+        <kendo-grid [data]="ProductList">
+          <kendo-grid-column field="year" title="Year">
+          </kendo-grid-column>
+          <kendo-grid-column field="month" title="Month">
+          </kendo-grid-column>
+          <kendo-grid-column field="name" title="Name">
+          </kendo-grid-column>
+          <kendo-grid-column field="mobile" title="Mobile">
+          </kendo-grid-column>
+
+          <kendo-grid-column field="rationno" title="Ration">
+          </kendo-grid-column>
+          <kendo-grid-column field="appointment" title="Date" format="{0: dd-MMM-yyyy}">
+          </kendo-grid-column>
+          <kendo-grid-column field="time" title="Time" format="{0: hh:mm a}">
+          </kendo-grid-column>
+          <kendo-grid-column field="kerosene" title="Kerosene(kg)">
+          </kendo-grid-column>
+          <kendo-grid-column field="sugar" title="Sugar(kg)">
+          </kendo-grid-column>
+          <kendo-grid-column field="rice" title="Rice(kg)">
+          </kendo-grid-column>
+          <kendo-grid-column field="status" title="Status">
+          </kendo-grid-column>
+        </kendo-grid>
+      </div>
+      <div *ngIf="role=='central'">
+        <kendo-grid [data]="gridView" [pageSize]="pageSize" [skip]="skip" [sortable]="true" [pageable]="true" (pageChange)="pageChange($event)">
+          <kendo-grid-column field="name" title="Name">
+          </kendo-grid-column>
+          <kendo-grid-column field="mobile" title="Mobile">
+          </kendo-grid-column>
+          <kendo-grid-column field="city" title="City">
+          </kendo-grid-column>
+
+          <div *kendoGridDetailTemplate="let dataItem">
+            <kendo-grid [data]="dataItem.reports"  [group]="state.group">
+              <kendo-grid-column field="year" title="Year">
+              </kendo-grid-column>
+              <kendo-grid-column field="month" title="Month">
+              </kendo-grid-column>
+              <kendo-grid-column field="name" title="Name">
+              </kendo-grid-column>
+              <kendo-grid-column field="mobile" title="Mobile">
+              </kendo-grid-column>
+              <kendo-grid-column field="rationno" title="Ration">
+              </kendo-grid-column>
+              <kendo-grid-column field="appointment" title="Date" format="{0: dd-MMM-yyyy}">
+              </kendo-grid-column>
+              <kendo-grid-column field="time" title="Time" format="{0: hh:mm a}">
+              </kendo-grid-column>
+              <kendo-grid-column field="kerosene" title="Kerosene(kg)">
+              
+              </kendo-grid-column>
+              <kendo-grid-column field="sugar" title="Sugar(kg)">
+              </kendo-grid-column>
+              <kendo-grid-column field="rice" title="Rice(kg)">
+              </kendo-grid-column>
+              <kendo-grid-column field="status" title="Status">
+              </kendo-grid-column>
+            </kendo-grid>
+          </div>
+        </kendo-grid>
+      </div>
+    </div>
+  </div>
+</div>

@@ -39,7 +39,8 @@
             </div>
             <div class="col-3">
                 <label for="example-text-input" class=" col-form-label">City</label>
-                <input class="form-control" type="text" name="city" formControlName="city" required >
+                <span *ngIf="!isCityUpdate">{{city}}</span>
+                <input *ngIf="isCityUpdate" class="form-control" type="text" name="city" formControlName="city" required >
                 <show-errors [control]="form.controls.city"></show-errors>
               </div>
          

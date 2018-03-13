@@ -43,9 +43,8 @@
               </ng-template>
           </kendo-grid-column>
           <kendo-grid-command-column title="Action" width="220">
-              <ng-template kendoGridCellTemplate let-isNew="isNew">
-                  <button kendoGridEditCommand class="k-primary">Edit</button>
-                  <button kendoGridRemoveCommand>Remove</button>
+              <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-isNew="isNew" *ngIf="status!='success'">
+                  <button kendoGridEditCommand class="k-primary" [disabled]="dataItem.status=='success'">Edit</button>
                   <button kendoGridSaveCommand [disabled]="myForm.invalid || myForm.pristine">{{ isNew ? 'Add' : 'Update' }}</button>
                   <button kendoGridCancelCommand>{{ isNew ? 'Discard changes' : 'Cancel' }}</button>
               </ng-template>

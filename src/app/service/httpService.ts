@@ -31,14 +31,18 @@ export class HttpService {
 			return Observable.fromPromise(this.updateConsumerRequests(params));
 		} else if (method == 'getDealerRequests') {
 			return Observable.fromPromise(this.getDealerRequests());
-		}
-		else if (method == 'updateRequest') {
+		} else if (method == 'updateRequest') {
 			return Observable.fromPromise(this.updateRequest(params));
-		}
-		else if (method == 'updateProductQuantity') {
+		} else if (method == 'updateProductQuantity') {
 			return Observable.fromPromise(this.updateProductQuantity(params));
+		} else if (method == 'viewReport') {
+			return Observable.fromPromise(this.viewReport());
+		} else if (method == 'getAssginedProduct') {
+			return Observable.fromPromise(this.getAssginedProduct());
 		}
-
+		else if (method == 'GetDealersOnly') {
+			return Observable.fromPromise(this.GetDealersOnly());
+		}
 
 		return null;
 	}
@@ -114,6 +118,18 @@ export class HttpService {
 		});
 	}
 
+	private GetDealersOnly() {
+		var Users = this.Parse.Object.extend('User');
+		var query = new this.Parse.Query(Users);
+		query.equalTo('role', 'dealer');
+		return query.find({
+			success: function(results) {
+				return results;
+			},
+			error: function(error) {}
+		});
+	}
+
 	private getProducts() {
 		var products = this.Parse.Object.extend('Products');
 		var query = new this.Parse.Query(products);
@@ -130,10 +146,11 @@ export class HttpService {
 		var products = this.Parse.Object.extend('Products');
 		var product = new products();
 		product.set('year', new Date().getFullYear().toString());
-		product.set('month', form.month);
+		product.set('month', this.listMonths[new Date().getMonth()]);
 		product.set('rice', form.rice);
 		product.set('sugar', form.sugar);
 		product.set('kerosene', form.kerosene);
+		product.set('city', form.city);
 		return product.save(null, {
 			success: function(user) {
 				return true;
@@ -148,12 +165,14 @@ export class HttpService {
 		var products = this.Parse.Object.extend('Products');
 		var query = new this.Parse.Query(products);
 		query.equalTo('month', form.month);
+		query.equalTo('city', form.city);
 		query.equalTo('year', new Date().getFullYear().toString());
 		return query.first({
 			success: function(product) {
 				product.set('rice', form.rice);
 				product.set('kerosene', form.kerosene);
 				product.set('sugar', form.sugar);
+				//product.set('city', form.city);
 				product.save();
 			},
 			error: function(user, error) {
@@ -178,10 +197,16 @@ export class HttpService {
 	}
 
 	private getConsumerRequests() {
+		debugger;
 		var usr = JSON.parse(localStorage.getItem('currentUser'));
 		var requets = this.Parse.Object.extend('Requests');
 		var query = new this.Parse.Query(requets);
-		query.equalTo('cosumerid', usr.objectId);
+		var userPointer = {
+			__type: 'Pointer',
+			className: '_User',
+			objectId: usr.objectId
+		  }
+		query.equalTo('consumerid',userPointer);
 		query.equalTo('year', new Date().getFullYear());
 		query.equalTo('month', this.listMonths[new Date().getMonth()]);
 		return query.find({
@@ -197,10 +222,15 @@ export class HttpService {
 		var usr = JSON.parse(localStorage.getItem('currentUser'));
 		var requets = this.Parse.Object.extend('Requests');
 		var request = new requets();
+		var userPointer = {
+			__type: 'Pointer',
+			className: '_User',
+			objectId: usr.objectId
+		  }
 		request.set('year', new Date().getFullYear());
 		request.set('month', this.listMonths[new Date().getMonth()]);
 		request.set('rice', form.rice);
-		request.set('cosumerid', usr.objectId);
+		request.set('consumerid', userPointer);
 		request.set('sugar', form.sugar);
 		request.set('kerosene', form.kerosene);
 		request.set('appointment', form.appointment);
@@ -261,8 +291,7 @@ export class HttpService {
 		});
 	}
 
-	private updateRequest(form)
-	{
+	private updateRequest(form) {
 		var usr = JSON.parse(localStorage.getItem('currentUser'));
 		var requets = this.Parse.Object.extend('Requests');
 		var query = new this.Parse.Query(requets);
@@ -281,23 +310,61 @@ export class HttpService {
 		});
 	}
 
-	private updateProductQuantity(form){
+	private updateProductQuantity(form) {
 		var requets = this.Parse.Object.extend('Products');
 		var query = new this.Parse.Query(requets);
-	
+
 		query.equalTo('month', this.listMonths[new Date().getMonth()]);
 		return query.first({
 			success: function(req) {
 				debugger;
-				req.set('sugar', (req.attributes.sugar-form.sugar));
-				req.set('rice', (req.attributes.rice-form.rice));
-				req.set('kerosene', (req.attributes.kerosene-form.kerosene));
+				req.set('sugar', req.attributes.sugar - form.sugar);
+				req.set('rice', req.attributes.rice - form.rice);
+				req.set('kerosene', req.attributes.kerosene - form.kerosene);
 				req.save();
 			},
 			error: function(user, error) {
 				console.log(error);
 				return false;
 			}
+		});
+	}
+
+	private viewReport() {
+		var usr = JSON.parse(localStorage.getItem('currentUser'));
+		var requets = this.Parse.Object.extend('Requests');
+		var query = new this.Parse.Query(requets);
+		query.include('consumerid');
+		//query.equalTo("consumerid.city", usr.city);
+		return query.find({
+			success: function(results) {
+				if (results.length > 0) {
+					if (usr.role === 'consumer') {
+						return results.filter(function(t) {
+							return t.attributes.consumerid.objectId == usr.objectId;
+						});
+					} else if (usr.role === 'dealer') {
+						return results.filter(function(t) {
+							return t.attributes.consumerid.city == usr.city;
+						});
+					}
+				}
+				return results;
+			},
+			error: function(error) {}
+		});
+	}
+
+	private getAssginedProduct(){
+		var usr = JSON.parse(localStorage.getItem('currentUser'));
+		var requets = this.Parse.Object.extend('Products');
+		var query = new this.Parse.Query(requets);
+		query.equalTo('city', usr.city);
+		return query.find({
+			success: function(results) {
+				return results;
+			},
+			error: function(error) {}
 		});
 	}
 }

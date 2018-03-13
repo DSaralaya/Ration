@@ -12,26 +12,27 @@
         <ng-template kendoGridToolbarTemplate>
             <button kendoGridAddCommand type="button">Add new</button>
         </ng-template>
-          <kendo-grid-column field="month" title="Month" >
-              <ng-template kendoGridEditTemplate let-dataItem="dataItem">
-                  <kendo-dropdownlist name="month" [data]="listItems" [(ngModel)]="dataItem.month"  required>
+          <kendo-grid-column field="city" title="City" >
+              <ng-template kendoGridEditTemplate let-dataItem="dataItem" let-isNew="isNew">
+                
+                  <kendo-dropdownlist *ngIf="isNew" name="month" [data]="city" [(ngModel)]="dataItem.city"  required>
                     </kendo-dropdownlist>
- 
+                    <span *ngIf="!isNew">{{dataItem.city}}</span>
               </ng-template>
           </kendo-grid-column>
           <kendo-grid-column field="kerosene" title="Kerosene(kg)">
               <ng-template kendoGridEditTemplate let-dataItem="dataItem">
-                  <input type="number" min="1" max="999999" [(ngModel)]="dataItem.kerosene" name="kerosene" class="k-textbox" required/>
+                  <input type="number" min="0" max="999999" [(ngModel)]="dataItem.kerosene" name="kerosene" class="k-textbox" required/>
               </ng-template>
           </kendo-grid-column>
           <kendo-grid-column field="sugar" title="Sugar(kg)">
               <ng-template kendoGridEditTemplate let-dataItem="dataItem">
-                  <input type="number" min="1" max="999999"  [(ngModel)]="dataItem.sugar" name="sugar" class="k-textbox" required/>
+                  <input type="number" min="0" max="999999"  [(ngModel)]="dataItem.sugar" name="sugar" class="k-textbox" required/>
               </ng-template>
           </kendo-grid-column>
           <kendo-grid-column field="rice" title="Rice(kg)">
               <ng-template kendoGridEditTemplate let-dataItem="dataItem">
-                  <input type="number" min="1" max="999999" [(ngModel)]="dataItem.rice" name="rice" class="k-textbox" required/>
+                  <input type="number" min="0" max="999999" [(ngModel)]="dataItem.rice" name="rice" class="k-textbox" required/>
               </ng-template>
           </kendo-grid-column>
           <kendo-grid-command-column title="Action" width="220">

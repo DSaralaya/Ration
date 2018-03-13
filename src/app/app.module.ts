@@ -23,6 +23,7 @@ import { ViewrequestComponent } from './dealer/viewrequest/viewrequest.component
 import { CreateRequestComponent } from './consumer/create-request/create-request.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { InputsModule } from '@progress/kendo-angular-inputs';
+import { ViewreportComponent } from './viewreport/viewreport.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -35,11 +36,12 @@ const appRoutes: Routes = [
 	{ path: 'profile', component: ProfileComponent, canActivate: [ AuthGuard ] },
 	{ path: 'addProduct', component: AddproductsComponent, canActivate: [ AuthGuard ] },
 	{ path: 'createrequest', component: CreateRequestComponent, canActivate: [ AuthGuard ] },
-	{ path: 'viewrequest', component: ViewrequestComponent, canActivate: [ AuthGuard ] }
+	{ path: 'viewrequest', component: ViewrequestComponent, canActivate: [ AuthGuard ] },
+	{ path: 'viewreport', component: ViewreportComponent, canActivate: [ AuthGuard ] }
 ];
 
 @NgModule({
-	declarations: [ AppComponent, LoginComponent, CentalHomeComponent, DealerHomeComponent, ConsumerHomeComponent, FieldErrorDisplayComponent, RegisterComponent, AddDealerComponent, ProfileComponent, AddproductsComponent, ViewrequestComponent, CreateRequestComponent ],
+	declarations: [ AppComponent, LoginComponent, CentalHomeComponent, DealerHomeComponent, ConsumerHomeComponent, FieldErrorDisplayComponent, RegisterComponent, AddDealerComponent, ProfileComponent, AddproductsComponent, ViewrequestComponent, CreateRequestComponent, ViewreportComponent ],
 	imports: [ BrowserModule, ReactiveFormsModule, FormsModule, HttpModule, RouterModule.forRoot(appRoutes), CustomFormsModule, BrowserAnimationsModule, GridModule, DropDownsModule, DateInputsModule, InputsModule ],
 	providers: [ AuthGuard, HttpService ],
 	bootstrap: [ AppComponent ]

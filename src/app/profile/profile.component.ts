@@ -9,10 +9,14 @@ import { HttpService } from '../service/httpService';
 })
 export class ProfileComponent implements OnInit {
 
-  form: any;
+	form: any;
+	isCityUpdate=false;
 	Invalid = false;
 	constructor(private fb: FormBuilder, private server: HttpService) {
-   
+		var usr = JSON.parse(localStorage.getItem('currentUser'));
+		if (usr.role === 'central') {
+			this.isCityUpdate = true;
+		}
 	}
 
 	ngOnInit() {
