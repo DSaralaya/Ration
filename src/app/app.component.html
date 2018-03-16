@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item" *ngIf="role=='dealer'">
-          <a class="nav-link" [routerLink]="['/get-started']">
+          <a class="nav-link" [routerLink]="['/dealer']">
             <span>View Consumer </span>
           </a>
         </li>
@@ -22,6 +22,21 @@
             <span>Add Dealer </span>
           </a>
         </li>
+        <li class="nav-item" *ngIf="role=='consumer'">
+            <a class="nav-link" [routerLink]="['/createrequest']">
+              <span>Request</span>
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="role=='dealer'">
+              <a class="nav-link" [routerLink]="['/viewrequest']">
+                <span>View Requests</span>
+              </a>
+            </li>
+        <li class="nav-item" >
+            <a class="nav-link" [routerLink]="['/viewreport']">
+              <span>View Report</span>
+            </a>
+          </li>
         <li class="nav-item dropdown  ml-auto">
             <a class="nav-link dropdown-toggle"  id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
              {{name}}
