@@ -13,6 +13,11 @@
           </a>
         </li>
         <li class="nav-item" *ngIf="role=='central'">
+          <a class="nav-link" [routerLink]="['/addProduct']">
+            <span>Products </span>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="role=='central'">
           <a class="nav-link" [routerLink]="['/central']">
             <span>View Dealer </span>
           </a>

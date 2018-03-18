@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { HttpService } from '../service/httpService';
+import { CityList } from '../service/CityList';
 
 @Component({
 	selector: 'app-register',
@@ -10,6 +11,7 @@ import { HttpService } from '../service/httpService';
 export class RegisterComponent implements OnInit {
 	form: any;
 	Invalid = false;
+	city = CityList.getCities();
 	constructor(fb: FormBuilder, private server: HttpService) {
 		this.form = fb.group({
 			username: '',
@@ -17,7 +19,9 @@ export class RegisterComponent implements OnInit {
 			lastname: '',
 			mobile: '',
 			rationno: '',
-			adharno: '',city:'',role:''
+			adharno: '',
+			city: '',
+			role: ''
 		});
 	}
 
@@ -25,9 +29,12 @@ export class RegisterComponent implements OnInit {
 
 	submitForm(form: any) {
 		if (this.form.valid) {
-			this.form.role='consumer';
+			debugger;
+			form.role = 'consumer';
 			this.server.call('register', form).subscribe(
-				(result) => {},
+				(result) => {
+					alert('Registered successfully');
+				},
 				(error) => {
 					this.Invalid = true;
 				}

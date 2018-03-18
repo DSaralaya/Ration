@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../service/httpService';
+import { CityList } from '../../service/CityList';
 
 @Component({
 	selector: 'app-addproducts',
@@ -13,7 +14,7 @@ export class AddproductsComponent implements OnInit {
 	private editedRowIndex: number;
 	public formGroup: FormGroup;
 	listMonths = [ 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC' ];
-	city=['Mangalore','Udupi','Mulki','Sullya','Puttur','ULLAL']
+	city = CityList.getCities();
 	constructor(private server: HttpService) {}
 
 	ngOnInit() {
@@ -32,7 +33,7 @@ export class AddproductsComponent implements OnInit {
 						rice: elem.rice,
 						sugar: elem.sugar,
 						kerosene: elem.kerosene,
-						city:elem.city
+						city: elem.city
 					});
 				});
 				console.log(this.ProductList);

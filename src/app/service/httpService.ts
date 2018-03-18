@@ -39,9 +39,10 @@ export class HttpService {
 			return Observable.fromPromise(this.viewReport());
 		} else if (method == 'getAssginedProduct') {
 			return Observable.fromPromise(this.getAssginedProduct());
-		}
-		else if (method == 'GetDealersOnly') {
+		} else if (method == 'GetDealersOnly') {
 			return Observable.fromPromise(this.GetDealersOnly());
+		} else if (method == 'AddDealer') {
+			return Observable.fromPromise(this.AddDealer(params));
 		}
 
 		return null;
@@ -76,9 +77,37 @@ export class HttpService {
 		//need to add otp
 		return user.signUp(null, {
 			success: function(user) {
+				this.Parse.User.logOut().then(() => {
+					var currentUser = this.Parse.User.current(); // this will now be null
+				});
 				return true;
 			},
 			error: function(user, error) {
+				console.log(error);
+				return false;
+			}
+		});
+	}
+
+	private AddDealer(form) {
+		var user = new this.Parse.User();
+		user.set('username', form.username);
+		user.set('password', '12345');
+		user.set('firstname', form.firstname);
+		user.set('lastname', form.lastname);
+		user.set('mobile', form.mobile);
+		user.set('rationno', form.rationno);
+		user.set('adharno', form.adharno);
+		user.set('city', form.city);
+		user.set('role', form.role);
+		user.set('mobileVerified', true);
+		//need to add otp
+		return user.save(null, {
+			success: function(user) {
+				return true;
+			},
+			error: function(user, error) {
+				console.log(error);
 				return false;
 			}
 		});
@@ -205,8 +234,8 @@ export class HttpService {
 			__type: 'Pointer',
 			className: '_User',
 			objectId: usr.objectId
-		  }
-		query.equalTo('consumerid',userPointer);
+		};
+		query.equalTo('consumerid', userPointer);
 		query.equalTo('year', new Date().getFullYear());
 		query.equalTo('month', this.listMonths[new Date().getMonth()]);
 		return query.find({
@@ -226,7 +255,7 @@ export class HttpService {
 			__type: 'Pointer',
 			className: '_User',
 			objectId: usr.objectId
-		  }
+		};
 		request.set('year', new Date().getFullYear());
 		request.set('month', this.listMonths[new Date().getMonth()]);
 		request.set('rice', form.rice);
@@ -338,24 +367,13 @@ export class HttpService {
 		//query.equalTo("consumerid.city", usr.city);
 		return query.find({
 			success: function(results) {
-				if (results.length > 0) {
-					if (usr.role === 'consumer') {
-						return results.filter(function(t) {
-							return t.attributes.consumerid.objectId == usr.objectId;
-						});
-					} else if (usr.role === 'dealer') {
-						return results.filter(function(t) {
-							return t.attributes.consumerid.city == usr.city;
-						});
-					}
-				}
 				return results;
 			},
 			error: function(error) {}
 		});
 	}
 
-	private getAssginedProduct(){
+	private getAssginedProduct() {
 		var usr = JSON.parse(localStorage.getItem('currentUser'));
 		var requets = this.Parse.Object.extend('Products');
 		var query = new this.Parse.Query(requets);

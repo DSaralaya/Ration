@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="card">
     <div class="card-header">
-      <h5>Products</h5>
+      <h5>Request Items</h5>
     </div>
     <div class="card-block">
       <div  class="">
@@ -9,8 +9,8 @@
         <form novalidate #myForm="ngForm">
         <kendo-grid [data]="ProductList"   (edit)="editHandler($event)" (cancel)="cancelHandler($event)"
         (save)="saveHandler($event)" (remove)="removeHandler($event)"    (add)="addHandler($event,myForm)">
-        <ng-template kendoGridToolbarTemplate>
-            <button kendoGridAddCommand type="button">Add new</button>
+        <ng-template kendoGridToolbarTemplate *ngIf="isAssingedProducts" >
+            <button kendoGridAddCommand type="button" >Add new</button>
         </ng-template>
         
           <kendo-grid-column field="appointment" title="Date" format="{0: dd-MMM-yyyy}" >

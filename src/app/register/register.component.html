@@ -40,7 +40,10 @@
             </div>
             <div class="col-3">
                 <label for="example-text-input" class=" col-form-label">City</label>
-                <input class="form-control" type="text" name="city" formControlName="city" required >
+                <select name="city" formControlName="city" required class="form-control">
+                  <option></option>
+                  <option *ngFor="let item of city">{{ item}}</option>
+                </select>
                 <show-errors [control]="form.controls.city"></show-errors>
               </div>
          

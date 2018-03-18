@@ -14,26 +14,34 @@ export class ViewreportComponent implements OnInit {
 	private editedRowIndex: number;
 	public formGroup: FormGroup;
 	dataItem: any;
-	role:any;
+	role: any;
 	public gridView: GridDataResult;
 	public pageSize = 10;
 	public skip = 0;
-	
-
 
 	constructor(private server: HttpService) {}
 
 	ngOnInit() {
 		var usr = JSON.parse(localStorage.getItem('currentUser'));
-		this.role=usr.role;
+		this.role = usr.role;
 		this.getReport();
 	}
 
 	getReport() {
-		
 		this.ProductList = [];
+		var usr = JSON.parse(localStorage.getItem('currentUser'));
 		this.server.call('viewReport', []).subscribe(
 			(result: any[]) => {
+				debugger;
+				if (usr.role === 'consumer') {
+					result = result.filter(function(t) {
+						return t.attributes.consumerid.objectId == usr.objectId;
+					});
+				} else if (usr.role === 'dealer') {
+					result = result.filter(function(t) {
+						return t.attributes.consumerid.city == usr.city;
+					});
+				}
 				result.forEach((element) => {
 					var elem = element.attributes;
 					var usr = elem.consumerid.attributes;
@@ -50,31 +58,30 @@ export class ViewreportComponent implements OnInit {
 						status: elem.status,
 						month: elem.month,
 						year: elem.year,
-						city:usr.city
+						city: usr.city
 					});
 				});
 				if (this.role === 'central') {
-					const dealerList=[];
+					const dealerList = [];
 					this.server.call('GetDealersOnly', []).subscribe((dealers: any[]) => {
 						dealers.forEach((element) => {
 							var elem = element.attributes;
-						     dealerList.push({
+							dealerList.push({
 								name: elem.firstname + ' ' + elem.lastname,
-								 city:elem.city,
-								 mobile:elem.mobile,
-								 reports:this.ProductList.filter(function(t){
-                                      return t.city.toLowerCase()===elem.city.toLowerCase();
+								city: elem.city,
+								mobile: elem.mobile,
+								reports: this.ProductList.filter(function(t) {
+									return t.city.toLowerCase() === elem.city.toLowerCase();
 								})
 							});
 						});
 
-						this.ProductList=dealerList.filter(function(t){
-							return t.reports.length>0;
+						this.ProductList = dealerList.filter(function(t) {
+							return t.reports.length > 0;
 						});
 						this.loadItems();
 					});
-				}
-				else{
+				} else {
 					this.loadItems();
 				}
 			},

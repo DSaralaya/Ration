@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { HttpService } from '../../service/httpService';
+import { CityList } from '../../service/CityList';
 
 @Component({
-  selector: 'app-add-dealer',
-  templateUrl: './add-dealer.component.html',
-  styleUrls: ['./add-dealer.component.css']
+	selector: 'app-add-dealer',
+	templateUrl: './add-dealer.component.html',
+	styleUrls: [ './add-dealer.component.css' ]
 })
 export class AddDealerComponent implements OnInit {
-  form: any;
+	form: any;
 	Invalid = false;
+	city = CityList.getCities();
 	constructor(fb: FormBuilder, private server: HttpService) {
 		this.form = fb.group({
 			username: '',
@@ -17,7 +19,9 @@ export class AddDealerComponent implements OnInit {
 			lastname: '',
 			mobile: '',
 			rationno: '',
-			adharno: '',city:'',role:''
+			adharno: '',
+			city: '',
+			role: ''
 		});
 	}
 
@@ -25,9 +29,11 @@ export class AddDealerComponent implements OnInit {
 
 	submitForm(form: any) {
 		if (this.form.valid) {
-			this.form.role='dealer';
-			this.server.call('register', form).subscribe(
-				(result) => {},
+			form.role = 'dealer';
+			this.server.call('AddDealer', form).subscribe(
+				(result) => {
+					alert('added sucessfully');
+				},
 				(error) => {
 					this.Invalid = true;
 				}
@@ -48,5 +54,4 @@ export class AddDealerComponent implements OnInit {
 			}
 		});
 	}
-
 }
