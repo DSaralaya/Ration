@@ -29,11 +29,12 @@ export class RegisterComponent implements OnInit {
 
 	submitForm(form: any) {
 		if (this.form.valid) {
-			debugger;
+			var val = Math.floor(1000 + Math.random() * 9000);
 			form.role = 'consumer';
 			this.server.call('register', form).subscribe(
 				(result) => {
-					alert('Registered successfully');
+					this.openModal();
+					this.server.sendOtp(form.mobile,val);
 				},
 				(error) => {
 					this.Invalid = true;
@@ -46,7 +47,6 @@ export class RegisterComponent implements OnInit {
 
 	validateAllFormFields(formGroup: FormGroup) {
 		Object.keys(formGroup.controls).forEach((field) => {
-			console.log(field);
 			const control = formGroup.get(field);
 			if (control instanceof FormControl) {
 				control.markAsTouched({ onlySelf: true });
@@ -54,5 +54,14 @@ export class RegisterComponent implements OnInit {
 				this.validateAllFormFields(control);
 			}
 		});
+	}
+	openModal() {
+		(<any>window['$']('#myModal')).modal('toggle');
+  }
+
+	OtpSubmit(opt) {
+		if(opt.value===''){
+			console.log('otp verified');
+		}
 	}
 }

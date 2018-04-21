@@ -1,11 +1,17 @@
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import { Injectable } from '@angular/core';
-
+import {  Http } from '@angular/http';
 @Injectable()
 export class HttpService {
 	Parse: any = window['Parse'];
 	listMonths = [ 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC' ];
+	constructor(private http:Http) {
+
+	}
+	sendOtp(number,otp) {
+		return this.http.get('https://control.msg91.com/api/sendotp.php?authkey=166425AgIVLyed597225f5&mobile='+number+'&message=Your%20otp%20is%20'+otp+'&otp='+otp).toPromise();
+	}
 	call(method, params: any) {
 		if (method == 'login') {
 			return Observable.fromPromise(this.LoginCall(params));

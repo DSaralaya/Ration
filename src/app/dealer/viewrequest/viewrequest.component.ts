@@ -12,6 +12,7 @@ export class ViewrequestComponent implements OnInit {
 	private editedRowIndex: number;
 	public formGroup: FormGroup;
 	dataItem: any;
+	private val:any;
 	constructor(private server: HttpService) {}
 
 	ngOnInit() {
@@ -22,8 +23,6 @@ export class ViewrequestComponent implements OnInit {
 		this.ProductList = [];
 		this.server.call('getDealerRequests', []).subscribe(
 			(result: any[]) => {
-				debugger;
-				console.log(result);
 				result.forEach((element) => {
 					var elem = element.attributes;
 					var usr = elem.consumerid.attributes;
@@ -47,8 +46,10 @@ export class ViewrequestComponent implements OnInit {
 	Accept(dataItem) {
 		(<any>window['$']('#myModal')).modal('toggle');
 		this.dataItem = dataItem;
+		this.val = Math.floor(1000 + Math.random() * 9000);
+		this.server.sendOtp(dataItem.mobile,this.val);
   }
-  
+
 	Reject(sender) {
 		var form = { objectId: this.dataItem.objectId, status: 'reject' };
 		this.server.call('updateRequest', form).subscribe((result: any[]) => {
@@ -57,10 +58,9 @@ export class ViewrequestComponent implements OnInit {
       this.getProducts();
 		});
   }
-  
+
 	OtpSubmit(input) {
-		console.log(input.value);
-		if (input.value === '123') {
+		if (input.value === this.val) {
 			var form = { objectId: this.dataItem.objectId, status: 'success' };
 			this.server.call('updateRequest', form).subscribe((result: any[]) => {
 				this.server.call('updateProductQuantity', this.dataItem).subscribe((result: any[]) => {
