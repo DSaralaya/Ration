@@ -17,6 +17,8 @@ export class HttpService {
 			return Observable.fromPromise(this.LoginCall(params));
 		} else if (method == 'register') {
 			return Observable.fromPromise(this.RegisterCall(params));
+		} else if (method == 'Verified') {
+			return Observable.fromPromise(this.Verified(params));
 		} else if (method == 'getdealers') {
 			return Observable.fromPromise(this.GetDealers());
 		} else if (method == 'profileUpdate') {
@@ -83,16 +85,28 @@ export class HttpService {
 		//need to add otp
 		return user.signUp(null, {
 			success: function(user) {
-				this.Parse.User.logOut().then(() => {
-					var currentUser = this.Parse.User.current(); // this will now be null
-				});
-				return true;
+				var objectid=user.id;
+				// this.Parse.User.logOut().then(() => {
+				// 	var currentUser = this.Parse.User.current(); // this will now be null
+				// });
+				return objectid;
 			},
 			error: function(user, error) {
 				console.log(error);
 				return false;
 			}
 		});
+	}
+    private Verified(objectId){
+		var query = new this.Parse.Query(this.Parse.User);
+		query.equalTo('objectId', objectId);
+		return query.first({
+			success: function(user) {
+				debugger;
+				user.set('mobileVerfied', true);
+				user.save();
+				return true;
+			}});
 	}
 
 	private AddDealer(form) {
@@ -306,6 +320,7 @@ export class HttpService {
 	}
 
 	private getDealerRequests() {
+		debugger;
 		var usr = JSON.parse(localStorage.getItem('currentUser'));
 		var requets = this.Parse.Object.extend('Requests');
 		var users = this.Parse.Object.extend('User');

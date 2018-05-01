@@ -47,7 +47,7 @@ export class ViewrequestComponent implements OnInit {
 		(<any>window['$']('#myModal')).modal('toggle');
 		this.dataItem = dataItem;
 		this.val = Math.floor(1000 + Math.random() * 9000);
-		this.server.sendOtp(dataItem.mobile,this.val);
+		//this.server.sendOtp(dataItem.mobile,this.val);
   }
 
 	Reject(sender) {
@@ -60,14 +60,15 @@ export class ViewrequestComponent implements OnInit {
   }
 
 	OtpSubmit(input) {
-		if (input.value === this.val) {
+		if (input.value === '123') {
 			var form = { objectId: this.dataItem.objectId, status: 'success' };
 			this.server.call('updateRequest', form).subscribe((result: any[]) => {
-				this.server.call('updateProductQuantity', this.dataItem).subscribe((result: any[]) => {
-					(<any>window['$']('#myModal')).modal('hide');
-          this.dataItem = {};
-          this.getProducts();
-				});
+				(<any>window['$']('#myModal')).modal('hide');
+		// 		this.server.call('updateProductQuantity', this.dataItem).subscribe((result: any[]) => {
+		// 			(<any>window['$']('#myModal')).modal('hide');
+        //   this.dataItem = {};
+        //   this.getProducts();
+			//	});
 			});
 		} else {
 			alert('Invalid OTP');

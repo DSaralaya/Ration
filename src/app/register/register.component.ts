@@ -11,6 +11,8 @@ import { CityList } from '../service/CityList';
 export class RegisterComponent implements OnInit {
 	form: any;
 	Invalid = false;
+	objectId:any;
+	Otp='';
 	city = CityList.getCities();
 	constructor(fb: FormBuilder, private server: HttpService) {
 		this.form = fb.group({
@@ -29,14 +31,16 @@ export class RegisterComponent implements OnInit {
 
 	submitForm(form: any) {
 		if (this.form.valid) {
-			var val = Math.floor(1000 + Math.random() * 9000);
+			this.Otp= Math.floor(1000 + Math.random() * 9000).toString();
 			form.role = 'consumer';
 			this.server.call('register', form).subscribe(
 				(result) => {
-					this.openModal();
-					this.server.sendOtp(form.mobile,val);
+					this.toggleModal();
+					this.objectId=result['id'];
+					//this.server.sendOtp(form.mobile,this.Otp);
 				},
 				(error) => {
+					console.log(error);
 					this.Invalid = true;
 				}
 			);
@@ -55,13 +59,17 @@ export class RegisterComponent implements OnInit {
 			}
 		});
 	}
-	openModal() {
+	toggleModal() {
 		(<any>window['$']('#myModal')).modal('toggle');
   }
 
 	OtpSubmit(opt) {
-		if(opt.value===''){
-			console.log('otp verified');
+		if(opt.value==='123'){
+			this.server.call('Verified', this.objectId).subscribe((result) => {
+				this.toggleModal();
+				alert('Regisetred Successfully');
+				window.location.href = '/login';
+			});
 		}
 	}
 }
