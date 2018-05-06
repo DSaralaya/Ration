@@ -1,0 +1,89 @@
+.home {
+  height: 100vh;
+      margin-top: -100px;
+
+}
+.home .col-md-7 {
+  background: #7F00FF;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to bottom, #E100FF, #7F00FF);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to bottom, #E100FF, #7F00FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+height: 100vh;
+    color: #fff;
+    padding-top:10%;
+    padding-left:100px;
+}
+.home  .col-md-7 h1 {
+        font-size: 5em;
+    font-weight: 900;
+}
+.home .landing-caption{
+        position: absolute;
+    bottom: 100px;
+    left: 50px;
+}
+.home .col-md-5 {
+  min-height: 100%;
+  background: #FBFBFB;
+}
+.home .col-md-5 h5 {
+     font-size: 2.6rem;
+    font-weight: 900;
+}
+.login {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+     width: 100%;
+    max-width: 340px;
+  margin: 0 auto;
+}
+.home .login .col-md-12 img {
+  margin-bottom: 60px;
+}
+.home .login .forgot-pwd a {
+  color: #939393;
+  text-transform: uppercase;
+  float: right;
+  margin: 14px 0;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+}
+.home .login h1 {
+  font-size: 2em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #939393;
+  margin-bottom: 30px;
+}
+
+.form-group a {
+    color: #999;
+    font-size: 12px;
+}
+
+
+@media(max-width:768px){
+   .home .col-md-7 {
+   height: 220px !important;
+   padding-left: 15px !important;
+   text-align: center;
+}
+.home .landing-caption {
+    position: static;
+    bottom: 100px;
+    left: 50px;
+}
+.home .landing-caption h1 { 
+font-size:5em;
+}
+.home .col-md-5 {
+    height: calc(100vh - 220px);
+} 
+.home{
+        background: #FBFBFB;
+}
+}
+

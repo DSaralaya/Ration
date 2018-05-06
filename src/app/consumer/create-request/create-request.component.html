@@ -10,7 +10,7 @@
         <kendo-grid [data]="ProductList"   (edit)="editHandler($event)" (cancel)="cancelHandler($event)"
         (save)="saveHandler($event)" (remove)="removeHandler($event)"    (add)="addHandler($event,myForm)">
         <ng-template kendoGridToolbarTemplate *ngIf="isAssingedProducts" >
-            <button kendoGridAddCommand type="button" >Add new</button>
+            <button kendoGridAddCommand type="button" class="pull-right" >Add new</button>
         </ng-template>
         
           <kendo-grid-column field="appointment" title="Date" format="{0: dd-MMM-yyyy}" >
@@ -44,7 +44,7 @@
           </kendo-grid-column>
           <kendo-grid-command-column title="Action" width="220">
               <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-isNew="isNew" *ngIf="status!='success'">
-                  <button kendoGridEditCommand class="k-primary" [disabled]="dataItem.status=='success'">Edit</button>
+                  <button kendoGridEditCommand class="k-primary" [disabled]="dataItem.status=='success'"><i class="fa fa-pencil"></i></button>
                   <button kendoGridSaveCommand [disabled]="myForm.invalid || myForm.pristine">{{ isNew ? 'Add' : 'Update' }}</button>
                   <button kendoGridCancelCommand>{{ isNew ? 'Discard changes' : 'Cancel' }}</button>
               </ng-template>
