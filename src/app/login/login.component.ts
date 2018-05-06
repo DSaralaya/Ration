@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
 				window.location.href = '/dealer';
 				//this.router.navigateByUrl('dealer');
 			} else if (user.role === 'consumer') {
-				window.location.href = '/consumer';
+				window.location.href = '/viewreport';
 				//this.router.navigateByUrl('consumer');
 			}
 		}
