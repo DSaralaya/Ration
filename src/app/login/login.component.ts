@@ -70,4 +70,23 @@ export class LoginComponent implements OnInit {
 			}
 		});
 	}
+	forgotPassword() {
+		(<any>window['$']('#myModal')).modal('toggle');
+	}
+
+	OtpSubmit(input) {
+		console.log(input.value.length);
+		if (input.value.length === 10) {
+			var val = Math.floor(1000 + Math.random() * 9000);
+			var form = { password: val, mobile: input.value };
+			this.server.call('updatePassword', form).subscribe((result: any[]) => {
+				//this.server.forgotOtp(input.value, val);
+				(<any>window['$']('#myModal')).modal('hide');
+				alert('Password Changed');
+				console.log(val);
+			});
+		} else {
+			alert('invalid mobile no');
+		}
+	}
 }

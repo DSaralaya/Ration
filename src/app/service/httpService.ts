@@ -1,16 +1,18 @@
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import { Injectable } from '@angular/core';
-import {  Http } from '@angular/http';
+import { Http } from '@angular/http';
 @Injectable()
 export class HttpService {
 	Parse: any = window['Parse'];
 	listMonths = [ 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC' ];
-	constructor(private http:Http) {
-
+	constructor(private http: Http) {}
+	sendOtp(number, otp) {
+		return this.http.get('https://control.msg91.com/api/sendotp.php?authkey=166425AgIVLyed597225f5&mobile=' + number + '&message=Your%20otp%20is%20' + otp + '&otp=' + otp).toPromise();
 	}
-	sendOtp(number,otp) {
-		return this.http.get('https://control.msg91.com/api/sendotp.php?authkey=166425AgIVLyed597225f5&mobile='+number+'&message=Your%20otp%20is%20'+otp+'&otp='+otp).toPromise();
+
+	forgotOtp(number, otp) {
+		return this.http.get('https://control.msg91.com/api/sendotp.php?authkey=166425AgIVLyed597225f5&mobile=' + number + '&message=Your%20Password%20is%20' + otp + '&otp=' + otp).toPromise();
 	}
 	call(method, params: any) {
 		if (method == 'login') {
@@ -51,6 +53,8 @@ export class HttpService {
 			return Observable.fromPromise(this.GetDealersOnly());
 		} else if (method == 'AddDealer') {
 			return Observable.fromPromise(this.AddDealer(params));
+		} else if (method == 'updatePassword') {
+			return Observable.fromPromise(this.updatePassword(params));
 		}
 
 		return null;
@@ -85,7 +89,7 @@ export class HttpService {
 		//need to add otp
 		return user.signUp(null, {
 			success: function(user) {
-				var objectid=user.id;
+				var objectid = user.id;
 				// this.Parse.User.logOut().then(() => {
 				// 	var currentUser = this.Parse.User.current(); // this will now be null
 				// });
@@ -97,7 +101,7 @@ export class HttpService {
 			}
 		});
 	}
-    private Verified(objectId){
+	private Verified(objectId) {
 		var query = new this.Parse.Query(this.Parse.User);
 		query.equalTo('objectId', objectId);
 		return query.first({
@@ -106,7 +110,8 @@ export class HttpService {
 				user.set('mobileVerfied', true);
 				user.save();
 				return true;
-			}});
+			}
+		});
 	}
 
 	private AddDealer(form) {
@@ -124,6 +129,22 @@ export class HttpService {
 		//need to add otp
 		return user.save(null, {
 			success: function(user) {
+				return true;
+			},
+			error: function(user, error) {
+				console.log(error);
+				return false;
+			}
+		});
+	}
+	private updatePassword(form) {
+		var query = new this.Parse.Query(this.Parse.User);
+		query.equalTo('mobile', form.mobile);
+		return query.first({
+			success: function(user) {
+				debugger;
+				user.set('password', form.password);
+				user.save();
 				return true;
 			},
 			error: function(user, error) {
@@ -183,6 +204,7 @@ export class HttpService {
 		var products = this.Parse.Object.extend('Products');
 		var query = new this.Parse.Query(products);
 		query.equalTo('year', new Date().getFullYear().toString());
+		query.equalTo('month', this.listMonths[new Date().getMonth()]);
 		return query.find({
 			success: function(results) {
 				return results;
@@ -327,14 +349,9 @@ export class HttpService {
 		var query = new this.Parse.Query(requets);
 		query.equalTo('status', 'pending');
 		query.include('consumerid');
-		//query.equalTo("consumerid.city", usr.city);
+		//query.equalTo('consumerid.city', usr.city);
 		return query.find({
 			success: function(results) {
-				if (results.length > 0) {
-					return results.filter(function(t) {
-						return t.attributes.consumerid.attributes.city == usr.city;
-					});
-				}
 				return results;
 			},
 			error: function(error) {}
@@ -342,6 +359,7 @@ export class HttpService {
 	}
 
 	private updateRequest(form) {
+		debugger;
 		var usr = JSON.parse(localStorage.getItem('currentUser'));
 		var requets = this.Parse.Object.extend('Requests');
 		var query = new this.Parse.Query(requets);
@@ -350,7 +368,7 @@ export class HttpService {
 			success: function(req) {
 				req.set('status', form.status);
 				req.set('approvedon', new Date());
-				req.set('approver', usr.objectId);
+				req.set('approver', { __type: 'Pointer', className: '_User', objectId: usr.objectId });
 				req.save();
 			},
 			error: function(user, error) {
@@ -388,6 +406,7 @@ export class HttpService {
 		//query.equalTo("consumerid.city", usr.city);
 		return query.find({
 			success: function(results) {
+				debugger;
 				return results;
 			},
 			error: function(error) {}

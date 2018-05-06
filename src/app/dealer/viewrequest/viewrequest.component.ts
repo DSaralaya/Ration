@@ -12,7 +12,7 @@ export class ViewrequestComponent implements OnInit {
 	private editedRowIndex: number;
 	public formGroup: FormGroup;
 	dataItem: any;
-	private val:any;
+	private val: any;
 	constructor(private server: HttpService) {}
 
 	ngOnInit() {
@@ -21,8 +21,13 @@ export class ViewrequestComponent implements OnInit {
 
 	getProducts() {
 		this.ProductList = [];
+		var usr = JSON.parse(localStorage.getItem('currentUser'));
 		this.server.call('getDealerRequests', []).subscribe(
-			(result: any[]) => {
+			(results: any[]) => {
+				debugger;
+				var result = results.filter(function(t) {
+					return t.attributes.consumerid.attributes.city == usr.city;
+				});
 				result.forEach((element) => {
 					var elem = element.attributes;
 					var usr = elem.consumerid.attributes;
@@ -48,27 +53,28 @@ export class ViewrequestComponent implements OnInit {
 		this.dataItem = dataItem;
 		this.val = Math.floor(1000 + Math.random() * 9000);
 		//this.server.sendOtp(dataItem.mobile,this.val);
-  }
+	}
 
-	Reject(sender) {
-		var form = { objectId: this.dataItem.objectId, status: 'reject' };
-		this.server.call('updateRequest', form).subscribe((result: any[]) => {
-			(<any>window['$']('#myModal')).modal('hide');
-      this.dataItem = {};
-      this.getProducts();
-		});
-  }
+	Reject(dataItem) {
+		var r = confirm('Are you sure to Reject?');
+		if (r == true) {
+			var form = { objectId: dataItem.objectId, status: 'reject' };
+			this.server.call('updateRequest', form).subscribe((result: any[]) => {
+				this.getProducts();
+			});
+		}
+	}
 
 	OtpSubmit(input) {
 		if (input.value === '123') {
 			var form = { objectId: this.dataItem.objectId, status: 'success' };
 			this.server.call('updateRequest', form).subscribe((result: any[]) => {
 				(<any>window['$']('#myModal')).modal('hide');
-		// 		this.server.call('updateProductQuantity', this.dataItem).subscribe((result: any[]) => {
-		// 			(<any>window['$']('#myModal')).modal('hide');
-        //   this.dataItem = {};
-        //   this.getProducts();
-			//	});
+				this.server.call('updateProductQuantity', this.dataItem).subscribe((result: any[]) => {
+					(<any>window['$']('#myModal')).modal('hide');
+					this.dataItem = {};
+					this.getProducts();
+				});
 			});
 		} else {
 			alert('Invalid OTP');
