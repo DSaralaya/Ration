@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
 				(result) => {
 					this.toggleModal();
 					this.objectId=result['id'];
-					//this.server.sendOtp(form.mobile,this.Otp);
+					this.server.sendOtp(form.mobile,this.Otp);
 				},
 				(error) => {
 					console.log(error);
@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit {
   }
 
 	OtpSubmit(opt) {
-		if(opt.value==='123'){
+		if(opt.value===this.Otp){
 			this.server.call('Verified', this.objectId).subscribe((result) => {
 				this.toggleModal();
 				alert('Regisetred Successfully');

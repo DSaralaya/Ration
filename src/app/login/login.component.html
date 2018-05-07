@@ -24,8 +24,10 @@
                 <a  [routerLink]="['/register']">Register</a> / <a  (click)="forgotPassword()" >Forgot password</a>
               <button type="submit" class="btn btn-primary pull-right">Submit</button>
 
+
+             
             </div>
-    
+           
                           <span *ngIf="Invalid" class="errorMessage alert alert-danger"><i class="fa fa-warning"></i> Invalid Username/Password</span>
 
           </form>
