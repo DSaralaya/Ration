@@ -39,7 +39,7 @@ export class ViewreportComponent implements OnInit {
 					});
 				} else if (usr.role === 'dealer') {
 					result = result.filter(function(t) {
-						return t.attributes.consumerid.city == usr.city;
+						return t.attributes.consumerid.attributes.city == usr.city;
 					});
 				}
 				result.forEach((element) => {

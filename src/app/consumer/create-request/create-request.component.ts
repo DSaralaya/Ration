@@ -12,12 +12,11 @@ export class CreateRequestComponent implements OnInit {
 	ProductList = [];
 	private editedRowIndex: number;
 	public formGroup: FormGroup;
-	listMonths = [ 'JAN', 'FEB', 'MAR' ];
 	itemList: any;
 	isAssingedProducts = true;
 	public autoCorrect: boolean = true;
 	minDate: Date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-	maxDate: Date = new Date(new Date().getFullYear(), new Date().getMonth(), 25);
+	maxDate: Date = new Date(new Date().getFullYear(), new Date().getMonth(), 30);
 	minTime: Date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 9, 30);
 	maxTime: Date = new Date(new Date().getFullYear(), new Date().getMonth(), 25, 16, 30);
 	constructor(private server: HttpService) {}

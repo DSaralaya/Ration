@@ -24,6 +24,7 @@ import { CreateRequestComponent } from './consumer/create-request/create-request
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { ViewreportComponent } from './viewreport/viewreport.component';
+import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -41,7 +42,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-	declarations: [ AppComponent, LoginComponent, CentalHomeComponent, DealerHomeComponent, ConsumerHomeComponent, FieldErrorDisplayComponent, RegisterComponent, AddDealerComponent, ProfileComponent, AddproductsComponent, ViewrequestComponent, CreateRequestComponent, ViewreportComponent ],
+	declarations: [ AppComponent, LoginComponent, CentalHomeComponent, DealerHomeComponent, ConsumerHomeComponent, FieldErrorDisplayComponent, RegisterComponent, AddDealerComponent, ProfileComponent, AddproductsComponent, ViewrequestComponent, CreateRequestComponent, ViewreportComponent, ForgotpasswordComponent ],
 	imports: [ BrowserModule, ReactiveFormsModule, FormsModule, HttpModule, RouterModule.forRoot(appRoutes), CustomFormsModule, BrowserAnimationsModule, GridModule, DropDownsModule, DateInputsModule, InputsModule ],
 	providers: [ AuthGuard, HttpService ],
 	bootstrap: [ AppComponent ]
