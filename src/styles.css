@@ -4,12 +4,11 @@ body {
 
 
 .errorMessage {
-        color: #fff;
-    background: #f44336;
+    color: #cd4444;
     width: 100%;
     padding: 1px 6px;
     margin-bottom: 10px;
-    font-size: 10px;
+    font-size: 11px;
 }
 .error-desc{
     display: inline-block;
@@ -150,13 +149,13 @@ nav.navbar .dropdown-toggle::after {
 
 .k-command-cell .btn {
     cursor: pointer;
-background-color: rgba(225, 0, 255, 0.1);
-    color: #e100ff;
+    background: rgba(0, 123, 255, 0.1) !important;
+    color: #007bff !important;
 }
 
 .k-block ::selection, .k-widget ::selection {
-    background-color: rgba(225, 0, 255, 0.1) !important;
-    color: #e100ff  !important;
+    background: rgba(0, 123, 255, 0.1) !important;
+    color: #007bff !important;
 }
 
 .dropdown.show:before {

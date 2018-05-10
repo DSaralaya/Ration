@@ -55,12 +55,12 @@
           <div class="form-group col-12" style="margin-top:10px;">
               <button type="submit" class="btn  btn-primary">Submit</button>
               
-             <div class="alert alert-danger mt-3" role="alert">
+             <div *ngIf="Invalid" class="alert alert-danger mt-3" role="alert">
                 <span ><i class="fa fa-warning fa-1x"></i>
                  Username already exist</span>
               </div>
 
-               <span *ngIf="Invalid" class="errorMessage"> Username already exist</span>
+               <!-- <span  class="errorMessage"> Username already exist</span> -->
                
             </div>
         </div>
