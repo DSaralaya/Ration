@@ -66,7 +66,7 @@ export class ViewrequestComponent implements OnInit {
 	}
 
 	OtpSubmit(input) {
-		if (input.value === this.val) {
+		if (input.value == this.val) {
 			var form = { objectId: this.dataItem.objectId, status: 'success' };
 			this.server.call('updateRequest', form).subscribe((result: any[]) => {
 				(<any>window['$']('#myModal')).modal('hide');
