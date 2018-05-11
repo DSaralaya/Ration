@@ -35,7 +35,7 @@ export class ViewreportComponent implements OnInit {
 				debugger;
 				if (usr.role === 'consumer') {
 					result = result.filter(function(t) {
-						return t.attributes.consumerid.objectId == usr.objectId;
+						return t.attributes.consumerid.id == usr.objectId;
 					});
 				} else if (usr.role === 'dealer') {
 					result = result.filter(function(t) {
