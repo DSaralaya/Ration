@@ -25,9 +25,10 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { ViewreportComponent } from './viewreport/viewreport.component';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
+import { HomepageComponent } from './homepage/homepage.component';
 
 const appRoutes: Routes = [
-	{ path: '', redirectTo: 'login', pathMatch: 'full' },
+	{ path: '', redirectTo: 'homepage', pathMatch: 'full' },
 	{ path: 'login', component: LoginComponent },
 	{ path: 'central', component: CentalHomeComponent, canActivate: [ AuthGuard ] },
 	{ path: 'addDealer', component: AddDealerComponent, canActivate: [ AuthGuard ] },
@@ -38,11 +39,12 @@ const appRoutes: Routes = [
 	{ path: 'addProduct', component: AddproductsComponent, canActivate: [ AuthGuard ] },
 	{ path: 'createrequest', component: CreateRequestComponent, canActivate: [ AuthGuard ] },
 	{ path: 'viewrequest', component: ViewrequestComponent, canActivate: [ AuthGuard ] },
-	{ path: 'viewreport', component: ViewreportComponent, canActivate: [ AuthGuard ] }
+	{ path: 'viewreport', component: ViewreportComponent, canActivate: [ AuthGuard ] },
+	{ path: 'homepage', component: HomepageComponent}
 ];
 
 @NgModule({
-	declarations: [ AppComponent, LoginComponent, CentalHomeComponent, DealerHomeComponent, ConsumerHomeComponent, FieldErrorDisplayComponent, RegisterComponent, AddDealerComponent, ProfileComponent, AddproductsComponent, ViewrequestComponent, CreateRequestComponent, ViewreportComponent, ForgotpasswordComponent ],
+	declarations: [ AppComponent, LoginComponent, CentalHomeComponent, DealerHomeComponent, ConsumerHomeComponent, FieldErrorDisplayComponent, RegisterComponent, AddDealerComponent, ProfileComponent, AddproductsComponent, ViewrequestComponent, CreateRequestComponent, ViewreportComponent, ForgotpasswordComponent, HomepageComponent ],
 	imports: [ BrowserModule, ReactiveFormsModule, FormsModule, HttpModule, RouterModule.forRoot(appRoutes), CustomFormsModule, BrowserAnimationsModule, GridModule, DropDownsModule, DateInputsModule, InputsModule ],
 	providers: [ AuthGuard, HttpService ],
 	bootstrap: [ AppComponent ]

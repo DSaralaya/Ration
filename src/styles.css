@@ -84,9 +84,9 @@ body {
 } 
 
 /* Menu */
-nav.navbar {
+/* nav.navbar {
     background-color: #007bff !important;
-}
+} */
 nav.navbar .navbar-brand {
     font-weight:900;
     font-size:2em;
@@ -114,10 +114,6 @@ nav.navbar .dropdown-toggle::after {
     border: 0;
 }
 
-
-.container-x {
-    margin-top: 100px;
-}
 
 .container-x .card {
     border:0;
